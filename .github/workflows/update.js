@@ -17,7 +17,7 @@ async function main() {
     for (const tag of missingTags) {
       console.log(`Updating to ${tag}`);
       await updateFiles(tag);
-      await stageCommitAndTag(tag);
+      await pushCommitAndTag(tag);
     }
     return 0;
   } catch (error) {
@@ -86,10 +86,17 @@ async function replaceInPackageJson(version) {
   );
 }
 
-async function stageCommitAndTag(tag) {
+async function pushCommitAndTag(tag) {
+  const { DEFAULT_BRANCH } = process.env;
   await git("add", "package.json", "README.md");
   await git("commit", "-m", `"MAINT: upgrade to ${PACKAGE_NAME} ${tag}"`);
   await git("tag", tag);
+  await git(
+    "push",
+    "origin",
+    `HEAD:refs/heads/${DEFAULT_BRANCH}`,
+    "--follow-tags"
+  );
 }
 
 async function git(...cmd) {
