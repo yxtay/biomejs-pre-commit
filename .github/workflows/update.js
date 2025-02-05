@@ -23,7 +23,7 @@ async function main() {
     await commitAndPushTag(version);
   }
 
-  await git("push", "origin", `HEAD:refs/heads/${DEFAULT_BRANCH}`);
+  await git("push");
 }
 
 async function getMissingVersions() {
