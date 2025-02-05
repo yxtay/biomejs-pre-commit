@@ -66,7 +66,7 @@ async function updateFiles(version) {
 async function updateReadme(version) {
   const readmeFile = path.join(REPO_DIR, "README.md");
   const readme = await fs.readFile(readmeFile, "utf8");
-  const newReadme = readme.replace(/rev: v\d+\.\d+\.\d+/i, `rev: v${version}`);
+  const newReadme = readme.replace(/rev:\s+\S+/i, `rev: v${version}`);
   await fs.writeFile(readmeFile, newReadme, "utf8");
 }
 
