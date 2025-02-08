@@ -102,13 +102,7 @@ async function commitTag(version) {
 }
 
 async function mergePullRequest(versions) {
-  await git(
-    "push",
-    "--follow-tags",
-    "--set-upstream",
-    "origin",
-    getBranchName(versions.at(-1))
-  );
+  await git("push", "--follow-tags", "--set-upstream");
   await exec(`gh pr create --fill --title "${getMessage(versions.at(-1))}"`);
   await exec("gh pr merge --auto --merge --delete-branch");
 }
